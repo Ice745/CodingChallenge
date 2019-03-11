@@ -1,3 +1,7 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class Airport {
     int id;
     String name;
@@ -7,6 +11,7 @@ public class Airport {
     String icao;
     double lat;
     double lng;
+    Map<Airport, Route> adjacentNodes = new HashMap<>();
 
     public Airport(int id, String name, String city, String country, String iata, String icao, double lat, double lng) {
         this.id = id;
@@ -17,6 +22,10 @@ public class Airport {
         this.icao = icao;
         this.lat = lat;
         this.lng = lng;
+    }
+
+    public void addDestination(Airport destination, Route path) {
+        adjacentNodes.put(destination, path);
     }
 
     public int getId() {
@@ -82,4 +91,22 @@ public class Airport {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Airport airport = (Airport) o;
+        return id == airport.id &&
+                name.equals(airport.name) &&
+                city.equals(airport.city) &&
+                country.equals(airport.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, city, country);
+    }
 }
+
+
